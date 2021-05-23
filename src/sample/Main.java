@@ -34,13 +34,6 @@ public class Main extends Application {
         Group root=new Group();
         Scene scene= new Scene(root);
 
-        Rectangle rect =new Rectangle();
-        rect.setHeight(50);
-        rect.setWidth(50);
-        rect.setFill(Color.BROWN);
-        rect.setX(25);
-        rect.setY(200);
-
         Tank leftTank=new Tank(50,300,100,100,Color.RED, true);
         Tank rightTank=new Tank(50,300,100,100,Color.GREEN, false);
 
@@ -52,7 +45,6 @@ public class Main extends Application {
         scoresPane=prepareGridPane(1200,100);
         bottomPane=prepareGridPane(1200,100);
 
-        gamePane.getChildren().add(rect);
 
         leftPlayerPane.getChildren().add(leftTank);
         leftPlayerPane.getChildren().add(leftTank.barrel);
@@ -63,19 +55,31 @@ public class Main extends Application {
 
                     switch (e.getCode()) {
                         case W:
-                            leftTank.moveUp();
+                            leftTank.moveUp(true);
                             break;
                         case S:
-                            leftTank.moveDown();
+                            leftTank.moveDown(true);
+                            break;
+                        case D:
+                            leftTank.barrel.leftRotate(5);
+                            break;
+                        case A:
+                            leftTank.barrel.leftRotate(-5);
                             break;
                         case SPACE:
                             //shoot(player);
                             break;
                         case UP:
-                            rightTank.moveUp();
+                            rightTank.moveUp(false);
                             break;
                         case DOWN:
-                            rightTank.moveDown();
+                            rightTank.moveDown(false);
+                            break;
+                        case LEFT:
+                            rightTank.barrel.rightRotate(-5);
+                            break;
+                        case RIGHT:
+                            rightTank.barrel.rightRotate(5);
                             break;
                     }
                 });

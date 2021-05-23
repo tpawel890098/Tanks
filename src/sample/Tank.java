@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -20,19 +21,41 @@ public class Tank extends Rectangle {
         shotBullets=0;
     }
 
-    public void moveUp()
+    public void moveUp(boolean left)
     {
         if(this.getY()>=10) {
             this.setY(this.getY() - 10);
-            this.barrel.setY(barrel.getY() - 10);
+
+            if(left) {
+                this.barrel.fakeRotate(true,-this.barrel.currentAngle);
+                this.barrel.setY(barrel.getY() - 10);
+                this.barrel.fakeRotate(true,this.barrel.currentAngle);
+            }
+            else
+            {
+                this.barrel.fakeRotate(false,-this.barrel.currentAngle);
+                this.barrel.setY(barrel.getY() - 10);
+                this.barrel.fakeRotate(false,this.barrel.currentAngle);
+            }
         }
     }
 
-    public void moveDown()
+    public void moveDown(boolean left)
     {
         if(this.getY()<=590) {
             this.setY(this.getY() + 10);
-            this.barrel.setY(barrel.getY() + 10);
+
+            if(left) {
+                this.barrel.fakeRotate(true,-this.barrel.currentAngle);
+                this.barrel.setY(barrel.getY() + 10);
+                this.barrel.fakeRotate(true,this.barrel.currentAngle);
+            }
+            else
+            {
+                this.barrel.fakeRotate(false,-this.barrel.currentAngle);
+                this.barrel.setY(barrel.getY() + 10);
+                this.barrel.fakeRotate(false,this.barrel.currentAngle);
+            }
         }
     }
 
