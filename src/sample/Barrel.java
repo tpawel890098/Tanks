@@ -128,7 +128,6 @@ public class Barrel extends Rectangle {
         }
         else
         {
-            System.out.println(this.getX());
             double barrelPositionX = 1000;
             double barrelPositionY = this.getY() + 108;
 

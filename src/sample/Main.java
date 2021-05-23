@@ -30,17 +30,17 @@ import static sample.PanePreparer.*;
 
 public class Main extends Application {
 
-    private BorderPane mainPane;
-    private Pane leftPlayerPane;
-    private Pane rightPlayerPane;
-    private Pane gamePane;
-    private GridPane scoresPane;
-    private GridPane bottomPane;
-    private Pane p1PointsPane;
-    private Pane p1BulletPane;
-    private Pane p2PointsPane;
-    private Pane p2BulletPane;
-    private BorderPane timePane;
+    private static BorderPane mainPane;
+    private static Pane leftPlayerPane;
+    private static Pane rightPlayerPane;
+    private static Pane gamePane;
+    private static GridPane scoresPane;
+    private static GridPane bottomPane;
+    private static Pane p1PointsPane;
+    private static Pane p1BulletPane;
+    private static Pane p2PointsPane;
+    private static Pane p2BulletPane;
+    private static BorderPane timePane;
     private static final Integer TIME =120;
     private IntegerProperty timeInSeconds = new SimpleIntegerProperty(TIME);
     public static Group root;
@@ -198,30 +198,39 @@ public class Main extends Application {
 
         bullets().forEach(s->{
 
-            System.out.println("asas");
             if (s.leftPlayersBullet) {
 
                 s.leftBulletMovement();
-                 /*
-                 if(s.getBoundsInParent().intersects(player.getBoundsInParent())){
-                        player.dead=true;
-                        s.dead=true;
-                    }
 
-*/
+                 if(s.getBoundsInParent().intersects(scoresPane.getBoundsInParent())){
+                        s.isDestroyed=true;
+                        s.setOpacity(0);
+                    }
+                 else if(s.getBoundsInParent().intersects(bottomPane.getBoundsInParent())){
+                     s.isDestroyed=true;
+                     s.setOpacity(0);
+                 }
+                 else if(s.getBoundsInParent().intersects(rightPlayerPane.getBoundsInParent())){
+                     s.isDestroyed=true;
+                     s.setOpacity(0);
+                 }
             }
             else {
 
                 s.rightBulletMovement();
-/*
-                    sprites().stream().filter(e->e.type.equals("enemy")).forEach(enemy->{
-                        if(s.getBoundsInParent().intersects(enemy.getBoundsInParent())){
-                            enemy.dead=true;
-                            s.dead=true;
-                        }
-                    });
 
-*/
+                if(s.getBoundsInParent().intersects(scoresPane.getBoundsInParent())){
+                    s.isDestroyed=true;
+                    s.setOpacity(0);
+                }
+                else if(s.getBoundsInParent().intersects(bottomPane.getBoundsInParent())){
+                    s.isDestroyed=true;
+                    s.setOpacity(0);
+                }
+                else if(s.getBoundsInParent().intersects(leftPlayerPane.getBoundsInParent())){
+                    s.isDestroyed=true;
+                    s.setOpacity(0);
+                }
             }
         });
 
