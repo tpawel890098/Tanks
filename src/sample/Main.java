@@ -171,8 +171,8 @@ public class Main extends Application {
         scoresPane.setConstraints(p1PointsPane,0,0);
         scoresPane.setConstraints(p1BulletPane,1,0);
         scoresPane.setConstraints(timePane,2,0);
-        scoresPane.setConstraints(p2PointsPane,3,0);
-        scoresPane.setConstraints(p2BulletPane,4,0);
+        scoresPane.setConstraints(p2PointsPane,4,0);
+        scoresPane.setConstraints(p2BulletPane,3,0);
         scoresPane.getColumnConstraints().addAll(p1PointsColumn,p1BulletColumn,timeColumn,p2PointsColumn,p2BulletColumn);
         scoresPane.getChildren().addAll(p1PointsPane,p1BulletPane,timePane,p2BulletPane,p2PointsPane);
 
