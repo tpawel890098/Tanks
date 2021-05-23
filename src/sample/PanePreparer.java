@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -8,7 +10,7 @@ import javafx.scene.paint.Color;
 
 public class PanePreparer {
 
-    public static BorderPane prepareMainPane(int width, int height)
+    public static BorderPane prepareBorderPane(int width, int height)
     {
         BorderPane pane=new BorderPane();
         pane.setPrefSize(width,height);
@@ -36,6 +38,12 @@ public class PanePreparer {
         columnCon.setPercentWidth(precentage);
 
         return columnCon;
+    }
+    public static Label prepareLabel (IntegerProperty i){
+        Label label = new Label();
+        label.textProperty().bind(i.asString());
+        label.setStyle("-fx-font-size: 5em;");
+        return label;
     }
 
 
