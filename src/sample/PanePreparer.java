@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -15,7 +16,7 @@ public class PanePreparer {
         return pane;
     }
 
-    public static Pane prepareGameZonePane(int width, int height)
+    public static Pane preparePane(int width, int height)
     {
         Pane pane=new Pane();
         pane.setPrefSize(width,height);
@@ -30,5 +31,12 @@ public class PanePreparer {
 
         return pane;
     }
+    public static ColumnConstraints prepareColumnConstraints (int precentage){
+        ColumnConstraints columnCon = new ColumnConstraints();
+        columnCon.setPercentWidth(precentage);
+
+        return columnCon;
+    }
+
 
 }
