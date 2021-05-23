@@ -1,23 +1,23 @@
 package sample;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
-
-import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static sample.PanePreparer.*;
 
@@ -33,20 +33,28 @@ public class Main extends Application {
     private Pane p1BulletPane;
     private Pane p2PointsPane;
     private Pane p2BulletPane;
-    private BorderPane timePane;
-    private Label timeLabel;
-    private static final Integer TIME=120;
-    private IntegerProperty startingTime = new SimpleIntegerProperty(TIME);
+    private Pane timePane;
+    public static Group root;
 
 
     @Override
     public void start(Stage primaryStage){
 
-        Group root=new Group();
+        root=new Group();
         Scene scene= new Scene(root);
 
         Tank leftTank=new Tank(50,300,100,100,Color.RED, true);
         Tank rightTank=new Tank(50,300,100,100,Color.GREEN, false);
+
+        AnimationTimer timer= new AnimationTimer(){
+
+            @Override
+            public void handle(long l) {
+                update();
+            }
+        };
+
+        timer.start();
 
 
         mainPane= prepareMainPane(1200,900);
@@ -62,63 +70,56 @@ public class Main extends Application {
         rightPlayerPane.getChildren().add(rightTank);
         rightPlayerPane.getChildren().add(rightTank.barrel);
 
-        scene.setOnKeyPressed(e-> {
 
-                    switch (e.getCode()) {
-                        case W:
-                            leftTank.moveUp(true);
-                            break;
-                        case S:
-                            leftTank.moveDown(true);
-                            break;
-                        case D:
-                            leftTank.barrel.leftRotate(5);
-                            break;
-                        case A:
-                            leftTank.barrel.leftRotate(-5);
-                            break;
-                        case SPACE:
-                            //shoot(player);
-                            break;
-                        case UP:
-                            rightTank.moveUp(false);
-                            break;
-                        case DOWN:
-                            rightTank.moveDown(false);
-                            break;
-                        case LEFT:
-                            rightTank.barrel.rightRotate(-5);
-                            break;
-                        case RIGHT:
-                            rightTank.barrel.rightRotate(5);
-                            break;
-                    }
-                });
+
+        scene.addEventHandler(KeyEvent.KEY_PRESSED,(key)-> {
+
+            switch (key.getCode()) {
+                case W:
+                    leftTank.moveUp(true);
+                    break;
+                case S:
+                    leftTank.moveDown(true);
+                    break;
+                case D:
+                    leftTank.barrel.leftRotate(5);
+                    break;
+                case A:
+                    leftTank.barrel.leftRotate(-5);
+                    break;
+                case SPACE:
+                    leftTank.barrel.shoot(true);
+                    break;
+                case UP:
+                    rightTank.moveUp(false);
+                    break;
+                case DOWN:
+                    rightTank.moveDown(false);
+                    break;
+                case LEFT:
+                    rightTank.barrel.rightRotate(-5);
+                    break;
+                case RIGHT:
+                    rightTank.barrel.rightRotate(5);
+                    break;
+                case ENTER:
+                    rightTank.barrel.shoot(false);
+                    break;
+            }
+        });
+
+
 
         gamePane.setStyle("-fx-background-color:lightblue;");
-       // leftPlayerPane.setStyle("-fx-background-color:yellow;");
-       // rightPlayerPane.setStyle("-fx-background-color:green;");
+        // leftPlayerPane.setStyle("-fx-background-color:yellow;");
+        // rightPlayerPane.setStyle("-fx-background-color:green;");
         scoresPane.setStyle("-fx-background-color:black;");
         bottomPane.setStyle("-fx-background-color:black;");
         p1PointsPane = preparePane(250,100);
         p1BulletPane = preparePane(250,100);
         p2PointsPane = preparePane(250,100);
         p2BulletPane = preparePane(250,100);
-        timePane = new BorderPane();
-        timePane.setPrefSize(250,100);
-
-
-
-        timeLabel = new Label();
-
-
-        timeLabel.textProperty().bind(startingTime.asString());
-        timeLabel.setTextFill(Color.RED);
-        timeLabel.setStyle("-fx-font-size: 4em;");
-        Timeline timeline = new Timeline();
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(TIME+1), new KeyValue(startingTime,0)));
-        timeline.playFromStart();
-
+        timePane = preparePane(250,100);
         ColumnConstraints p1PointsColumn = prepareColumnConstraints(20);
         ColumnConstraints timeColumn = prepareColumnConstraints(20);
         ColumnConstraints p2PointsColumn = prepareColumnConstraints(20);
@@ -129,8 +130,6 @@ public class Main extends Application {
         p1BulletPane.setStyle("-fx-background-color:green;");
         p2PointsPane.setStyle("-fx-background-color:blue;");
         p2BulletPane.setStyle("-fx-background-color:red;");
-        timePane.setCenter(timeLabel);
-
         scoresPane.setConstraints(p1PointsPane,0,0);
         scoresPane.setConstraints(p1BulletPane,1,0);
         scoresPane.setConstraints(timePane,2,0);
@@ -157,5 +156,55 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private ArrayList<Bullet> bullets(){
+
+        ArrayList<Bullet> nodes = new ArrayList<Bullet>();
+        addAllDescendents(root, nodes);
+
+        return nodes;
+    }
+
+    private static void addAllDescendents(Parent parent, ArrayList<Bullet> nodes) {
+
+        for (Node node : parent.getChildrenUnmodifiable()) {
+            if(node instanceof Bullet)
+                nodes.add((Bullet) node);
+        }
+
+    }
+
+    private void update(){
+
+        bullets().forEach(s->{
+
+            System.out.println("asas");
+            if (s.leftPlayersBullet) {
+
+                s.leftBulletMovement();
+                 /*
+                 if(s.getBoundsInParent().intersects(player.getBoundsInParent())){
+                        player.dead=true;
+                        s.dead=true;
+                    }
+
+*/
+            }
+            else {
+
+                s.rightBulletMovement();
+/*
+                    sprites().stream().filter(e->e.type.equals("enemy")).forEach(enemy->{
+                        if(s.getBoundsInParent().intersects(enemy.getBoundsInParent())){
+                            enemy.dead=true;
+                            s.dead=true;
+                        }
+                    });
+
+*/
+            }
+        });
+
     }
 }

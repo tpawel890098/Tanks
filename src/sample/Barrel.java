@@ -8,11 +8,16 @@ public class Barrel extends Rectangle {
 
     private double width;
     private double height;
+    private double x;
+    private double y;
     public double currentAngle;
 
     public Barrel(double x, double y, double width, double height, boolean left)
     {
         super(x+width/2,y+height/2-height/12,width,height/6);
+
+        this.x=x+width/2;
+        this.y=y+height/2-height/12;
 
         if(!left)
         {
@@ -80,9 +85,58 @@ public class Barrel extends Rectangle {
 
     }
 
-    public void rightRotate()
+    public void leftBulletRotate(double angle, Bullet bullet)
     {
+        double xRotate=this.getX();
+        double yRotate=this.getY()+108;
 
+        Rotate rotate=new Rotate();
+        rotate.setAngle(angle);
+        rotate.setPivotX(xRotate);
+        rotate.setPivotY(yRotate);
+
+        bullet.getTransforms().add(rotate);
+
+    }
+
+    public void rightBulletRotate(double angle, Bullet bullet)
+    {
+        double xRotate=1100;
+        double yRotate=this.getY()+108;
+
+        Rotate rotate=new Rotate();
+        rotate.setAngle(angle);
+        rotate.setPivotX(xRotate);
+        rotate.setPivotY(yRotate);
+
+        bullet.getTransforms().add(rotate);
+
+    }
+
+    public void shoot(boolean left)
+    {
+        final double radius = 20;
+
+        if(left) {
+            double barrelPositionX = this.getX() + this.width;
+            double barrelPositionY = this.getY() + 108;
+
+            Bullet bullet = new Bullet(barrelPositionX, barrelPositionY, radius, true);
+            leftBulletRotate(currentAngle, bullet);
+
+            Main.root.getChildren().add(bullet);
+        }
+        else
+        {
+            System.out.println(this.getX());
+            double barrelPositionX = 1000;
+            double barrelPositionY = this.getY() + 108;
+
+            Bullet bullet = new Bullet(barrelPositionX, barrelPositionY, radius, false);
+            rightBulletRotate(currentAngle, bullet);
+
+            Main.root.getChildren().add(bullet);
+        }
     }
 
 }
