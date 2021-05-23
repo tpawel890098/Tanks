@@ -62,6 +62,8 @@ public class Main extends Application {
         root=new Group();
         Scene scene= new Scene(root);
 
+        GameSetup.setSettingsUp();
+
         Tank leftTank=new Tank(50,300,100,100,Color.RED, true);
         Tank rightTank=new Tank(50,300,100,100,Color.GREEN, false);
 
@@ -217,7 +219,6 @@ public class Main extends Application {
 
         bullets().forEach(s->{
 
-            System.out.println("asas");
             if (s.leftPlayersBullet) {
 
                 s.leftBulletMovement();
