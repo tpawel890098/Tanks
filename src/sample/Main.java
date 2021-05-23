@@ -221,26 +221,40 @@ public class Main extends Application {
             if (s.leftPlayersBullet) {
 
                 s.leftBulletMovement();
-                 /*
-                 if(s.getBoundsInParent().intersects(player.getBoundsInParent())){
-                        player.dead=true;
-                        s.dead=true;
-                    }
 
-*/
+                 if(s.getBoundsInParent().intersects(scoresPane.getBoundsInParent())){
+                        s.isDestroyed=true;
+                        s.setOpacity(0);
+                    }
+                 else if(s.getBoundsInParent().intersects(bottomPane.getBoundsInParent())){
+                     s.isDestroyed=true;
+                     s.setOpacity(0);
+                 }
+                 else if(s.getBoundsInParent().intersects(rightPlayerPane.getBoundsInParent())){
+                    s.isDestroyed=true;
+                    s.setOpacity(0);
+                }
+
+
             }
             else {
 
                 s.rightBulletMovement();
-/*
-                    sprites().stream().filter(e->e.type.equals("enemy")).forEach(enemy->{
-                        if(s.getBoundsInParent().intersects(enemy.getBoundsInParent())){
-                            enemy.dead=true;
-                            s.dead=true;
-                        }
-                    });
 
-*/
+                if(s.getBoundsInParent().intersects(scoresPane.getBoundsInParent())){
+                    s.isDestroyed=true;
+                    s.setOpacity(0);
+                }
+                else if(s.getBoundsInParent().intersects(bottomPane.getBoundsInParent())){
+                    s.isDestroyed=true;
+                    s.setOpacity(0);
+                }
+                else if(s.getBoundsInParent().intersects(leftPlayerPane.getBoundsInParent())){
+                    s.isDestroyed=true;
+                    s.setOpacity(0);
+                }
+
+
             }
         });
 
