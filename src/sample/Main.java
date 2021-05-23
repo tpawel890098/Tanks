@@ -1,11 +1,17 @@
 package sample;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -14,6 +20,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +40,11 @@ public class Main extends Application {
     private Pane p1BulletPane;
     private Pane p2PointsPane;
     private Pane p2BulletPane;
-    private Pane timePane;
+    private BorderPane timePane;
+    private static final Integer TIME =120;
+    private IntegerProperty timeInSeconds = new SimpleIntegerProperty(TIME);
     public static Group root;
+    private Timeline timeline;
 
 
     @Override
@@ -119,7 +129,16 @@ public class Main extends Application {
         p1BulletPane = preparePane(250,100);
         p2PointsPane = preparePane(250,100);
         p2BulletPane = preparePane(250,100);
-        timePane = preparePane(250,100);
+        timePane = new BorderPane();
+
+        Label timeLabel = new Label();
+        timeLabel.setStyle("-fx-font-size: 5em;");
+        timeLabel.textProperty().bind(timeInSeconds.asString());
+        timeline = new Timeline();
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(TIME+1), new KeyValue(timeInSeconds,0)));
+        timeline.playFromStart();
+        timePane.setCenter(timeLabel);
+
         ColumnConstraints p1PointsColumn = prepareColumnConstraints(20);
         ColumnConstraints timeColumn = prepareColumnConstraints(20);
         ColumnConstraints p2PointsColumn = prepareColumnConstraints(20);
