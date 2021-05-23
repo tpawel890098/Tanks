@@ -1,15 +1,23 @@
 package sample;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
+
+import java.sql.Time;
 
 import static sample.PanePreparer.*;
 
@@ -25,7 +33,10 @@ public class Main extends Application {
     private Pane p1BulletPane;
     private Pane p2PointsPane;
     private Pane p2BulletPane;
-    private Pane timePane;
+    private BorderPane timePane;
+    private Label timeLabel;
+    private static final Integer TIME=120;
+    private IntegerProperty startingTime = new SimpleIntegerProperty(TIME);
 
 
     @Override
@@ -89,7 +100,21 @@ public class Main extends Application {
         p1BulletPane = preparePane(250,100);
         p2PointsPane = preparePane(250,100);
         p2BulletPane = preparePane(250,100);
-        timePane = preparePane(250,100);
+        timePane = new BorderPane();
+        timePane.setPrefSize(250,100);
+
+
+
+        timeLabel = new Label();
+
+
+        timeLabel.textProperty().bind(startingTime.asString());
+        timeLabel.setTextFill(Color.RED);
+        timeLabel.setStyle("-fx-font-size: 4em;");
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(TIME+1), new KeyValue(startingTime,0)));
+        timeline.playFromStart();
+
         ColumnConstraints p1PointsColumn = prepareColumnConstraints(20);
         ColumnConstraints timeColumn = prepareColumnConstraints(20);
         ColumnConstraints p2PointsColumn = prepareColumnConstraints(20);
@@ -100,6 +125,8 @@ public class Main extends Application {
         p1BulletPane.setStyle("-fx-background-color:green;");
         p2PointsPane.setStyle("-fx-background-color:blue;");
         p2BulletPane.setStyle("-fx-background-color:red;");
+        timePane.setCenter(timeLabel);
+
         scoresPane.setConstraints(p1PointsPane,0,0);
         scoresPane.setConstraints(p1BulletPane,1,0);
         scoresPane.setConstraints(timePane,2,0);
