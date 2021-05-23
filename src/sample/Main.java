@@ -18,10 +18,13 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static sample.PanePreparer.*;
 
@@ -33,22 +36,13 @@ public class Main extends Application {
     private Pane gamePane;
     private GridPane scoresPane;
     private GridPane bottomPane;
-    private BorderPane p1PointsPane;
-    private BorderPane p1BulletPane;
-    private BorderPane p2PointsPane;
-    private BorderPane p2BulletPane;
+    private Pane p1PointsPane;
+    private Pane p1BulletPane;
+    private Pane p2PointsPane;
+    private Pane p2BulletPane;
     private BorderPane timePane;
     private static final Integer TIME =120;
     private IntegerProperty timeInSeconds = new SimpleIntegerProperty(TIME);
-    private IntegerProperty p1PointsInt = new SimpleIntegerProperty(0);
-    private IntegerProperty p1ShotBulletsInt = new SimpleIntegerProperty(0);
-    private IntegerProperty p2PointsInt = new SimpleIntegerProperty(0);
-    private IntegerProperty p2ShotBulletsInt = new SimpleIntegerProperty(0);
-    private Label timeLabel;
-    private Label p1PointsLabel;
-    private Label p1ShotBulletsLabel;
-    private Label p2PointsLabel;
-    private Label p2ShotBulletsLabel;
     public static Group root;
     private Timeline timeline;
 
@@ -73,7 +67,7 @@ public class Main extends Application {
         timer.start();
 
 
-        mainPane= prepareBorderPane(1200,900);
+        mainPane= prepareMainPane(1200,900);
         gamePane= preparePane(1000,700);
         leftPlayerPane= preparePane(200,700);
         rightPlayerPane= preparePane(200,700);
@@ -105,7 +99,6 @@ public class Main extends Application {
                     break;
                 case SPACE:
                     leftTank.barrel.shoot(true);
-                    p1ShotBulletsInt.set(p1ShotBulletsInt.get()+1);
                     break;
                 case UP:
                     rightTank.moveUp(false);
@@ -121,7 +114,6 @@ public class Main extends Application {
                     break;
                 case ENTER:
                     rightTank.barrel.shoot(false);
-                    p2ShotBulletsInt.set(p2ShotBulletsInt.get()+1);
                     break;
             }
         });
@@ -133,25 +125,19 @@ public class Main extends Application {
         // rightPlayerPane.setStyle("-fx-background-color:green;");
         scoresPane.setStyle("-fx-background-color:black;");
         bottomPane.setStyle("-fx-background-color:black;");
-        p1PointsPane = prepareBorderPane(250,100);
-        p1BulletPane = prepareBorderPane(250,100);
-        p2PointsPane = prepareBorderPane(250,100);
-        p2BulletPane = prepareBorderPane(250,100);
-        timePane = prepareBorderPane(250,100);
+        p1PointsPane = preparePane(250,100);
+        p1BulletPane = preparePane(250,100);
+        p2PointsPane = preparePane(250,100);
+        p2BulletPane = preparePane(250,100);
+        timePane = new BorderPane();
 
-        timeLabel = prepareLabel(timeInSeconds);
-        p1PointsLabel = prepareLabel(p1PointsInt);
-        p1ShotBulletsLabel = prepareLabel(p1ShotBulletsInt);
-        p2PointsLabel = prepareLabel(p2PointsInt);
-        p2ShotBulletsLabel = prepareLabel(p2ShotBulletsInt);
+        Label timeLabel = new Label();
+        timeLabel.setStyle("-fx-font-size: 5em;");
+        timeLabel.textProperty().bind(timeInSeconds.asString());
         timeline = new Timeline();
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(TIME+1), new KeyValue(timeInSeconds,0)));
         timeline.playFromStart();
         timePane.setCenter(timeLabel);
-        p1PointsPane.setCenter(p1PointsLabel);
-        p1BulletPane.setCenter(p1ShotBulletsLabel);
-        p2PointsPane.setCenter(p2PointsLabel);
-        p2BulletPane.setCenter(p2ShotBulletsLabel);
 
         ColumnConstraints p1PointsColumn = prepareColumnConstraints(20);
         ColumnConstraints timeColumn = prepareColumnConstraints(20);
