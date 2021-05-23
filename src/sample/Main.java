@@ -1,11 +1,10 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -22,7 +21,11 @@ public class Main extends Application {
     private Pane gamePane;
     private GridPane scoresPane;
     private GridPane bottomPane;
-
+    private Pane p1PointsPane;
+    private Pane p1BulletPane;
+    private Pane p2PointsPane;
+    private Pane p2BulletPane;
+    private Pane timePane;
 
 
     @Override
@@ -43,9 +46,9 @@ public class Main extends Application {
 
 
         mainPane= prepareMainPane(1200,900);
-        gamePane= prepareGameZonePane(1000,700);
-        leftPlayerPane=prepareGameZonePane(200,700);
-        rightPlayerPane=prepareGameZonePane(200,700);
+        gamePane= preparePane(1000,700);
+        leftPlayerPane= preparePane(200,700);
+        rightPlayerPane= preparePane(200,700);
         scoresPane=prepareGridPane(1200,100);
         bottomPane=prepareGridPane(1200,100);
 
@@ -82,6 +85,28 @@ public class Main extends Application {
        // rightPlayerPane.setStyle("-fx-background-color:green;");
         scoresPane.setStyle("-fx-background-color:black;");
         bottomPane.setStyle("-fx-background-color:black;");
+        p1PointsPane = preparePane(250,100);
+        p1BulletPane = preparePane(250,100);
+        p2PointsPane = preparePane(250,100);
+        p2BulletPane = preparePane(250,100);
+        timePane = preparePane(250,100);
+        ColumnConstraints p1PointsColumn = prepareColumnConstraints(20);
+        ColumnConstraints timeColumn = prepareColumnConstraints(20);
+        ColumnConstraints p2PointsColumn = prepareColumnConstraints(20);
+        ColumnConstraints p1BulletColumn = prepareColumnConstraints(20);
+        ColumnConstraints p2BulletColumn = prepareColumnConstraints(20);
+        timePane.setStyle("-fx-background-color:cyan");
+        p1PointsPane.setStyle("-fx-background-color:yellow;");
+        p1BulletPane.setStyle("-fx-background-color:green;");
+        p2PointsPane.setStyle("-fx-background-color:blue;");
+        p2BulletPane.setStyle("-fx-background-color:red;");
+        scoresPane.setConstraints(p1PointsPane,0,0);
+        scoresPane.setConstraints(p1BulletPane,1,0);
+        scoresPane.setConstraints(timePane,2,0);
+        scoresPane.setConstraints(p2PointsPane,3,0);
+        scoresPane.setConstraints(p2BulletPane,4,0);
+        scoresPane.getColumnConstraints().addAll(p1PointsColumn,p1BulletColumn,timeColumn,p2PointsColumn,p2BulletColumn);
+        scoresPane.getChildren().addAll(p1PointsPane,p1BulletPane,timePane,p2BulletPane,p2PointsPane);
 
         mainPane.setLeft(leftPlayerPane);
         mainPane.setRight(rightPlayerPane);
