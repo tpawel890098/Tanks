@@ -124,8 +124,8 @@ public class Main extends Application {
         ColumnConstraints p2PointsColumn = prepareColumnConstraints(20);
         ColumnConstraints p1BulletColumn = prepareColumnConstraints(20);
         ColumnConstraints p2BulletColumn = prepareColumnConstraints(20);
-        timePane.setStyle("-fx-background-color:cyan");
         p1PointsPane.setStyle("-fx-background-color:yellow;");
+        timePane.setStyle("-fx-background-color:cyan");
         p1BulletPane.setStyle("-fx-background-color:green;");
         p2PointsPane.setStyle("-fx-background-color:blue;");
         p2BulletPane.setStyle("-fx-background-color:red;");
