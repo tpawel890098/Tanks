@@ -41,8 +41,8 @@ public class Main extends Application {
     private BorderPane p2PointsPane;
     private BorderPane p2BulletPane;
     private BorderPane timePane;
-    private static final Integer TIME =120;
-    private IntegerProperty timeInSeconds = new SimpleIntegerProperty(TIME);
+    private static Integer TIME;
+    private IntegerProperty timeInSeconds;
     private IntegerProperty p1PointsInt = new SimpleIntegerProperty(0);
     private IntegerProperty p1ShotBulletsInt = new SimpleIntegerProperty(0);
     private IntegerProperty p2PointsInt = new SimpleIntegerProperty(0);
@@ -54,6 +54,8 @@ public class Main extends Application {
     private Label p2ShotBulletsLabel;
     public static Group root;
     private Timeline timeline;
+    public static Tank leftTank;
+    public static Tank rightTank;
 
 
     @Override
@@ -64,8 +66,11 @@ public class Main extends Application {
 
         GameSetup.setSettingsUp();
 
-        Tank leftTank=new Tank(50,300,100,100,Color.RED, true);
-        Tank rightTank=new Tank(50,300,100,100,Color.GREEN, false);
+        TIME=GameSetup.getGameTime();
+        timeInSeconds= new SimpleIntegerProperty(TIME);
+
+        leftTank=new Tank(50,300,100,100,Color.RED, true);
+        rightTank=new Tank(50,300,100,100,Color.GREEN, false);
 
         AnimationTimer timer= new AnimationTimer(){
 
@@ -110,7 +115,6 @@ public class Main extends Application {
                     break;
                 case SPACE:
                     leftTank.barrel.shoot(true);
-                    p1ShotBulletsInt.set(p1ShotBulletsInt.get()+1);
                     break;
                 case UP:
                     rightTank.moveUp(false);
@@ -126,7 +130,6 @@ public class Main extends Application {
                     break;
                 case ENTER:
                     rightTank.barrel.shoot(false);
-                    p2ShotBulletsInt.set(p2ShotBulletsInt.get()+1);
                     break;
             }
         });
@@ -224,16 +227,32 @@ public class Main extends Application {
                 s.leftBulletMovement();
 
                  if(s.getBoundsInParent().intersects(scoresPane.getBoundsInParent())){
-                        s.isDestroyed=true;
+
                         s.setOpacity(0);
-                    }
+                     if(s.isDestroyed==false) {
+                         leftTank.setActiveBullets(leftTank.getActiveBullets() - 1);
+                         p1ShotBulletsInt.set(p1ShotBulletsInt.get()+1);
+                         s.isDestroyed=true;
+                     }
+                 }
                  else if(s.getBoundsInParent().intersects(bottomPane.getBoundsInParent())){
-                     s.isDestroyed=true;
+
                      s.setOpacity(0);
+                     if(s.isDestroyed==false) {
+                         leftTank.setActiveBullets(leftTank.getActiveBullets() - 1);
+                         p1ShotBulletsInt.set(p1ShotBulletsInt.get()+1);
+                         s.isDestroyed=true;
+                     }
                  }
                  else if(s.getBoundsInParent().intersects(rightPlayerPane.getBoundsInParent())){
-                    s.isDestroyed=true;
+
                     s.setOpacity(0);
+                     if(s.isDestroyed==false) {
+                         leftTank.setActiveBullets(leftTank.getActiveBullets() - 1);
+                         p1ShotBulletsInt.set(p1ShotBulletsInt.get()+1);
+                         s.isDestroyed=true;
+                     }
+
                 }
 
 
@@ -243,16 +262,36 @@ public class Main extends Application {
                 s.rightBulletMovement();
 
                 if(s.getBoundsInParent().intersects(scoresPane.getBoundsInParent())){
-                    s.isDestroyed=true;
+
                     s.setOpacity(0);
+                    if(s.isDestroyed==false) {
+                        rightTank.setActiveBullets(rightTank.getActiveBullets() - 1);
+                        p2ShotBulletsInt.set(p2ShotBulletsInt.get()+1);
+                        s.isDestroyed=true;
+                    }
+
                 }
                 else if(s.getBoundsInParent().intersects(bottomPane.getBoundsInParent())){
-                    s.isDestroyed=true;
+
                     s.setOpacity(0);
+                    if(s.isDestroyed==false) {
+                        rightTank.setActiveBullets(rightTank.getActiveBullets() - 1);
+                        p2ShotBulletsInt.set(p2ShotBulletsInt.get()+1);
+                        s.isDestroyed=true;
+                    }
+
                 }
                 else if(s.getBoundsInParent().intersects(leftPlayerPane.getBoundsInParent())){
-                    s.isDestroyed=true;
+
                     s.setOpacity(0);
+                    if(s.isDestroyed==false) {
+                        rightTank.setActiveBullets(rightTank.getActiveBullets() - 1);
+                        p2ShotBulletsInt.set(p2ShotBulletsInt.get()+1);
+                        s.isDestroyed=true;
+                    }
+
+                    System.out.println(rightTank.getActiveBullets());
+
                 }
 
 

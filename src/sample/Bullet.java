@@ -5,16 +5,16 @@ import javafx.scene.shape.Circle;
 
 public class Bullet extends Circle {
 
-    private double bulletRadius;
-    private double bulletSpeed;
-    private double bulletAcceleration;
-    private double bulletRadiusDowngrade;
+    private static double bulletRadius=GameSetup.getBulletRadius();
+    private static double bulletSpeed=GameSetup.getBulletSpeed();
+    private static double bulletAcceleration=GameSetup.getBulletAcceleration();
+    private static double bulletRadiusDowngrade=GameSetup.getBulletRadiusChange();
     public boolean isDestroyed;
     public boolean leftPlayersBullet;
 
-    public Bullet(double x, double y, double radius, boolean left)
+    public Bullet(double x, double y, boolean left)
     {
-        super(x,y,radius, Color.GRAY);
+        super(x,y,bulletRadius, Color.GRAY);
         leftPlayersBullet=left;
         this.setStrokeWidth(4);
         if(leftPlayersBullet)
@@ -34,4 +34,35 @@ public class Bullet extends Circle {
         this.setCenterX(this.getCenterX()-10);
     }
 
+    public double getBulletRadius() {
+        return bulletRadius;
+    }
+
+    public static void setBulletRadius(double bulletRadius) {
+        bulletRadius = bulletRadius;
+    }
+
+    public double getBulletSpeed() {
+        return bulletSpeed;
+    }
+
+    public static void setBulletSpeed(double bulletSpeed) {
+       bulletSpeed = bulletSpeed;
+    }
+
+    public double getBulletAcceleration() {
+        return bulletAcceleration;
+    }
+
+    public static void setBulletAcceleration(double bulletAcceleration) {
+        bulletAcceleration = bulletAcceleration;
+    }
+
+    public double getBulletRadiusDowngrade() {
+        return bulletRadiusDowngrade;
+    }
+
+    public static void setBulletRadiusDowngrade(double bulletRadiusDowngrade) {
+        bulletRadiusDowngrade = bulletRadiusDowngrade;
+    }
 }

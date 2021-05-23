@@ -115,26 +115,33 @@ public class Barrel extends Rectangle {
 
     public void shoot(boolean left)
     {
-        final double radius = 20;
 
         if(left) {
-            double barrelPositionX = this.getX() + this.width;
-            double barrelPositionY = this.getY() + 108;
+            if(Main.leftTank.getActiveBullets()< Tank.maxActiveBullets) {
+                double barrelPositionX = this.getX() + this.width;
+                double barrelPositionY = this.getY() + 108;
 
-            Bullet bullet = new Bullet(barrelPositionX, barrelPositionY, radius, true);
-            leftBulletRotate(currentAngle, bullet);
+                Bullet bullet = new Bullet(barrelPositionX, barrelPositionY, true);
+                leftBulletRotate(currentAngle, bullet);
 
-            Main.root.getChildren().add(bullet);
+                Main.leftTank.setActiveBullets(Main.leftTank.getActiveBullets() + 1);
+
+                Main.root.getChildren().add(bullet);
+            }
         }
         else
         {
-            double barrelPositionX = 1000;
-            double barrelPositionY = this.getY() + 108;
+            if(Main.rightTank.getActiveBullets()< Tank.maxActiveBullets) {
+                double barrelPositionX = 1000;
+                double barrelPositionY = this.getY() + 108;
 
-            Bullet bullet = new Bullet(barrelPositionX, barrelPositionY, radius, false);
-            rightBulletRotate(currentAngle, bullet);
+                Bullet bullet = new Bullet(barrelPositionX, barrelPositionY, false);
+                rightBulletRotate(currentAngle, bullet);
 
-            Main.root.getChildren().add(bullet);
+                Main.rightTank.setActiveBullets(Main.rightTank.getActiveBullets() + 1);
+
+                Main.root.getChildren().add(bullet);
+            }
         }
     }
 

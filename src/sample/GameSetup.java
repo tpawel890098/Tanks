@@ -68,6 +68,7 @@ public class GameSetup {
 
 
 
+
         System.out.println(defaultBulletSpeed);
         System.out.println(maxShotBullets);
         System.out.println(bulletRadius);
@@ -85,5 +86,37 @@ public class GameSetup {
 
 
    }
+
+   public static double getBulletRadius()
+   {
+       return bulletRadius;
+   }
+
+    public static double getBulletSpeed()
+    {
+        return defaultBulletSpeed;
+    }
+
+    public static double getBulletAcceleration()
+    {
+        return bulletAcceleration;
+    }
+
+    public static double getBulletRadiusChange()
+    {
+        return radiusChange;
+    }
+
+    public static int getGameTime()
+    {
+        int value=(int)gameTime;
+        return value;
+    }
+
+    public static int getMaxShotBullets()
+    {
+        int value=(int)maxShotBullets;
+        return value;
+    }
 
 }

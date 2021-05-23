@@ -6,6 +6,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Tank extends Rectangle {
 
+    public static final int maxActiveBullets=GameSetup.getMaxShotBullets();
     private int playerPoints;
     private int activeBullets;
     private int shotBullets;
