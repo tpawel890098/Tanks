@@ -39,7 +39,7 @@ public class Bullet extends Circle {
                     if(this!=null) {
                         if (!isDestroyed) {
                             changeBulletSpeed();
-                            changeRadius();
+                            //changeRadius();
                         } else {
                             timer.cancel();
                         }

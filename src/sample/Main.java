@@ -209,7 +209,6 @@ public class Main extends Application {
         scoresPane.setConstraints(p2BulletPane,3,0);
         scoresPane.getColumnConstraints().addAll(p1PointsColumn,p1BulletColumn,timeColumn,p2PointsColumn,p2BulletColumn);
         scoresPane.getChildren().addAll(p1PointsPane,p1BulletPane,timePane,p2BulletPane,p2PointsPane);
-
         notificationsLabel = new Label();
         notificationsLabel.setLayoutY(0);
         notificationsLabel.setLayoutX(200);
@@ -288,7 +287,7 @@ public class Main extends Application {
 
             for(Cell cell : cellCol )
             {
-                if(s.getBoundsInParent().intersects(cell.getBoundsInParent()))
+                if(s.getBoundsInParent().intersects(cell.stack.getBoundsInParent()))
                 {
                     cell.getHit();
 
@@ -303,8 +302,9 @@ public class Main extends Application {
                         if(cell.getCellDurability()==0)
                         {
                             leftTank.setPlayerPoints(leftTank.getPlayerPoints()+cell.getCellValue());
-                            cell.timeline.jumpTo(Duration.seconds(50));
-                            root.getChildren().remove(cell);
+                            cell.stack.setOpacity(0);
+                            cell.timeline.jumpTo(Duration.seconds(5));
+                            p1PointsInt.setValue(leftTank.getPlayerPoints());
 
                             System.out.println("LEWY GRACZ PKT: "+leftTank.getPlayerPoints());
                         }
@@ -316,8 +316,9 @@ public class Main extends Application {
                         if(cell.getCellDurability()==0)
                         {
                             rightTank.setPlayerPoints(rightTank.getPlayerPoints()+cell.getCellValue());
-                            cell.timeline.jumpTo(Duration.seconds(50));
-                            root.getChildren().remove(cell);
+                            cell.stack.setOpacity(0);
+                            cell.timeline.jumpTo(Duration.seconds(5));
+                            p2PointsInt.setValue(rightTank.getPlayerPoints());
 
                             System.out.println("PRAWY GRACZ PKT: "+rightTank.getPlayerPoints());
                         }
@@ -447,7 +448,7 @@ public class Main extends Application {
     {
         Cell cell = new Cell();
         cellCol.add(cell);
-        root.getChildren().add(cell);
+        root.getChildren().add(cell.stack);
     }
 
 
