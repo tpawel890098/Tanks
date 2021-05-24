@@ -18,6 +18,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -30,36 +31,40 @@ import static sample.PanePreparer.*;
 
 public class Main extends Application {
 
-    private BorderPane mainPane;
-    private Pane leftPlayerPane;
-    private Pane rightPlayerPane;
-    private Pane gamePane;
-    private GridPane scoresPane;
-    private GridPane bottomPane;
-    private BorderPane p1PointsPane;
-    private BorderPane p1BulletPane;
-    private BorderPane p2PointsPane;
-    private BorderPane p2BulletPane;
-    private BorderPane timePane;
+    private static BorderPane mainPane;
+    private static Pane leftPlayerPane;
+    private static Pane rightPlayerPane;
+    private static Pane gamePane;
+    private static GridPane scoresPane;
+    private static GridPane bottomPane;
+    private static BorderPane p1PointsPane;
+    private static BorderPane p1BulletPane;
+    private static BorderPane p2PointsPane;
+    private static BorderPane p2BulletPane;
+    private static BorderPane timePane;
     private static Integer TIME;
-    private IntegerProperty timeInSeconds;
-    private IntegerProperty p1PointsInt = new SimpleIntegerProperty(0);
-    private IntegerProperty p1ShotBulletsInt = new SimpleIntegerProperty(0);
-    private IntegerProperty p2PointsInt = new SimpleIntegerProperty(0);
-    private IntegerProperty p2ShotBulletsInt = new SimpleIntegerProperty(0);
-    private Label timeLabel;
-    private Label p1PointsLabel;
-    private Label p1ShotBulletsLabel;
-    private Label p2PointsLabel;
-    private Label p2ShotBulletsLabel;
+    private static IntegerProperty timeInSeconds;
+    private static IntegerProperty p1PointsInt = new SimpleIntegerProperty(0);
+    private static IntegerProperty p1ShotBulletsInt = new SimpleIntegerProperty(0);
+    private static IntegerProperty p2PointsInt = new SimpleIntegerProperty(0);
+    private static IntegerProperty p2ShotBulletsInt = new SimpleIntegerProperty(0);
+    private static Label timeLabel;
+    private static Label p1PointsLabel;
+    private static Label p1ShotBulletsLabel;
+    private static Label p2PointsLabel;
+    private static Label p2ShotBulletsLabel;
     public static Group root;
-    private Timeline timeline;
+    private static Timeline timeline;
     public static Tank leftTank;
     public static Tank rightTank;
+    public static Circle circle;
+    private static ArrayList<Circle> circleCol;
 
 
     @Override
     public void start(Stage primaryStage){
+
+        circleCol=new ArrayList<Circle>();
 
         root=new Group();
         Scene scene= new Scene(root);
@@ -76,7 +81,13 @@ public class Main extends Application {
 
             @Override
             public void handle(long l) {
-                update();
+                try {
+                    update();
+                }
+                catch(Exception e) {
+                    System.out.println("UPDATE PROBLEM");
+
+                }
             }
         };
 
@@ -97,42 +108,52 @@ public class Main extends Application {
         rightPlayerPane.getChildren().add(rightTank.barrel);
 
 
+        try {
+            scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
 
-        scene.addEventHandler(KeyEvent.KEY_PRESSED,(key)-> {
+                switch (key.getCode()) {
+                    case W:
+                        leftTank.moveUp(true);
+                        break;
+                    case S:
+                        leftTank.moveDown(true);
+                        break;
+                    case D:
+                        leftTank.barrel.leftRotate(5);
+                        break;
+                    case A:
+                        leftTank.barrel.leftRotate(-5);
+                        break;
+                    case SPACE:
+                        leftTank.barrel.shoot(true);
+                        root.getChildren().removeAll(circleCol);
+                        System.out.println("CC " + circleCol.size());
+                        circleCol.clear();
+                        break;
+                    case UP:
+                        rightTank.moveUp(false);
+                        break;
+                    case DOWN:
+                        rightTank.moveDown(false);
+                        break;
+                    case LEFT:
+                        rightTank.barrel.rightRotate(-5);
+                        break;
+                    case RIGHT:
+                        rightTank.barrel.rightRotate(5);
+                        break;
+                    case ENTER:
+                        rightTank.barrel.shoot(false);
+                        root.getChildren().removeAll(circleCol);
+                        circleCol.clear();
+                        break;
+                }
 
-            switch (key.getCode()) {
-                case W:
-                    leftTank.moveUp(true);
-                    break;
-                case S:
-                    leftTank.moveDown(true);
-                    break;
-                case D:
-                    leftTank.barrel.leftRotate(5);
-                    break;
-                case A:
-                    leftTank.barrel.leftRotate(-5);
-                    break;
-                case SPACE:
-                    leftTank.barrel.shoot(true);
-                    break;
-                case UP:
-                    rightTank.moveUp(false);
-                    break;
-                case DOWN:
-                    rightTank.moveDown(false);
-                    break;
-                case LEFT:
-                    rightTank.barrel.rightRotate(-5);
-                    break;
-                case RIGHT:
-                    rightTank.barrel.rightRotate(5);
-                    break;
-                case ENTER:
-                    rightTank.barrel.shoot(false);
-                    break;
-            }
-        });
+            });
+        }catch(Exception e) {
+            System.out.println("KEY LISTENER PROBLEM");
+
+        }
 
 
 
@@ -201,26 +222,48 @@ public class Main extends Application {
         launch(args);
     }
 
+
+
     private ArrayList<Bullet> bullets(){
 
-        ArrayList<Bullet> nodes = new ArrayList<Bullet>();
-        addAllDescendents(root, nodes);
+        try {
+            ArrayList<Bullet> nodes = new ArrayList<Bullet>();
+            addAllDescendents(root, nodes);
+            return nodes;
+        }catch(Exception e)
+        {
+            System.out.println("bullet");
+        }
 
-        return nodes;
+        return new ArrayList<Bullet>();
     }
 
     private static void addAllDescendents(Parent parent, ArrayList<Bullet> nodes) {
 
-        for (Node node : parent.getChildrenUnmodifiable()) {
-            if(node instanceof Bullet)
-                nodes.add((Bullet) node);
+        try {
+            for (Node node : parent.getChildrenUnmodifiable()) {
+                if (node instanceof Bullet)
+                    nodes.add((Bullet) node);
+            }
+        }catch(Exception e){
+
+            System.out.println("ADDALLDESCENDENTS");
+
         }
 
     }
 
+
     private void update(){
 
+        //System.out.println("CH "+root.getChildren().size());
+       // System.out.println("B "+bullets().size());
+        try {
         bullets().forEach(s->{
+
+            Circle fakeBullet;
+            fakeBullet=new Circle(0,0,0);
+            circle=fakeBullet;
 
             if (s.leftPlayersBullet) {
 
@@ -228,11 +271,13 @@ public class Main extends Application {
 
                  if(s.getBoundsInParent().intersects(scoresPane.getBoundsInParent())){
 
-                        s.setOpacity(0);
+                     s.setOpacity(0);
                      if(s.isDestroyed==false) {
                          leftTank.setActiveBullets(leftTank.getActiveBullets() - 1);
-                         p1ShotBulletsInt.set(p1ShotBulletsInt.get()+1);
                          s.isDestroyed=true;
+                         root.getChildren().remove(s);
+                         root.getChildren().add(fakeBullet);
+                         circleCol.add(fakeBullet);
                      }
                  }
                  else if(s.getBoundsInParent().intersects(bottomPane.getBoundsInParent())){
@@ -240,17 +285,21 @@ public class Main extends Application {
                      s.setOpacity(0);
                      if(s.isDestroyed==false) {
                          leftTank.setActiveBullets(leftTank.getActiveBullets() - 1);
-                         p1ShotBulletsInt.set(p1ShotBulletsInt.get()+1);
                          s.isDestroyed=true;
+                         root.getChildren().remove(s);
+                         root.getChildren().add(fakeBullet);
+                         circleCol.add(fakeBullet);
                      }
                  }
                  else if(s.getBoundsInParent().intersects(rightPlayerPane.getBoundsInParent())){
 
-                    s.setOpacity(0);
+                     s.setOpacity(0);
                      if(s.isDestroyed==false) {
                          leftTank.setActiveBullets(leftTank.getActiveBullets() - 1);
-                         p1ShotBulletsInt.set(p1ShotBulletsInt.get()+1);
                          s.isDestroyed=true;
+                         root.getChildren().remove(s);
+                         root.getChildren().add(fakeBullet);
+                         circleCol.add(fakeBullet);
                      }
 
                 }
@@ -266,8 +315,10 @@ public class Main extends Application {
                     s.setOpacity(0);
                     if(s.isDestroyed==false) {
                         rightTank.setActiveBullets(rightTank.getActiveBullets() - 1);
-                        p2ShotBulletsInt.set(p2ShotBulletsInt.get()+1);
                         s.isDestroyed=true;
+                        root.getChildren().remove(s);
+                        root.getChildren().add(fakeBullet);
+                        circleCol.add(fakeBullet);
                     }
 
                 }
@@ -276,8 +327,10 @@ public class Main extends Application {
                     s.setOpacity(0);
                     if(s.isDestroyed==false) {
                         rightTank.setActiveBullets(rightTank.getActiveBullets() - 1);
-                        p2ShotBulletsInt.set(p2ShotBulletsInt.get()+1);
                         s.isDestroyed=true;
+                        root.getChildren().remove(s);
+                        root.getChildren().add(fakeBullet);
+                        circleCol.add(fakeBullet);
                     }
 
                 }
@@ -286,17 +339,34 @@ public class Main extends Application {
                     s.setOpacity(0);
                     if(s.isDestroyed==false) {
                         rightTank.setActiveBullets(rightTank.getActiveBullets() - 1);
-                        p2ShotBulletsInt.set(p2ShotBulletsInt.get()+1);
                         s.isDestroyed=true;
+                        root.getChildren().remove(s);
+                        root.getChildren().add(fakeBullet);
+                        circleCol.add(fakeBullet);
                     }
-
-                    System.out.println(rightTank.getActiveBullets());
 
                 }
 
 
             }
+
         });
 
+        }
+        catch(Exception e) {
+            System.out.println("UPDATE PROBLEM");
+
+        }
     }
+
+
+    public static void setShotBulletsP1(){
+        p1ShotBulletsInt.set(p1ShotBulletsInt.get()+1);
+    }
+
+    public static void setShotBulletsP2(){
+        p2ShotBulletsInt.set(p2ShotBulletsInt.get()+1);
+    }
+
+
 }

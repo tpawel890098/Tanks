@@ -107,6 +107,8 @@ public class GameSetup {
         return radiusChange;
     }
 
+    public static double getTimeUnit() { return timeUnit; }
+
     public static int getGameTime()
     {
         int value=(int)gameTime;

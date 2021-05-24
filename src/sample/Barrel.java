@@ -115,11 +115,14 @@ public class Barrel extends Rectangle {
 
     public void shoot(boolean left)
     {
-
         if(left) {
             if(Main.leftTank.getActiveBullets()< Tank.maxActiveBullets) {
                 double barrelPositionX = this.getX() + this.width;
                 double barrelPositionY = this.getY() + 108;
+
+                //System.out.println("STRZELAM XD");
+
+                Main.setShotBulletsP1();
 
                 Bullet bullet = new Bullet(barrelPositionX, barrelPositionY, true);
                 leftBulletRotate(currentAngle, bullet);
@@ -135,6 +138,8 @@ public class Barrel extends Rectangle {
                 double barrelPositionX = 1000;
                 double barrelPositionY = this.getY() + 108;
 
+                Main.setShotBulletsP2();
+
                 Bullet bullet = new Bullet(barrelPositionX, barrelPositionY, false);
                 rightBulletRotate(currentAngle, bullet);
 
@@ -143,6 +148,8 @@ public class Barrel extends Rectangle {
                 Main.root.getChildren().add(bullet);
             }
         }
+
     }
+
 
 }
