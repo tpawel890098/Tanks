@@ -69,7 +69,7 @@ public class GameSetup {
 
 
 
-        System.out.println(defaultBulletSpeed);
+      /*  System.out.println(defaultBulletSpeed);
         System.out.println(maxShotBullets);
         System.out.println(bulletRadius);
         System.out.println(cellFallingSpeed);
@@ -82,7 +82,7 @@ public class GameSetup {
         System.out.println(durabilityIncreaseTimeUnit);
         System.out.println(gameTime);
 
-
+*/
 
 
    }

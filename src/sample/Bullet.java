@@ -11,9 +11,9 @@ public class Bullet extends Circle {
     private static double bulletRadius=GameSetup.getBulletRadius();
     private double bulletSpeed=GameSetup.getBulletSpeed();
     private double currentBulletRadius;
-    private static double bulletAcceleration=GameSetup.getBulletAcceleration();
-    private static double bulletRadiusDowngrade=GameSetup.getBulletRadiusChange();
-    private static double timeUnit=GameSetup.getTimeUnit();
+    private double bulletAcceleration=GameSetup.getBulletAcceleration();
+    private double bulletRadiusDowngrade=GameSetup.getBulletRadiusChange();
+    private double timeUnit=GameSetup.getTimeUnit();
     private Timer timer;
     public boolean isDestroyed;
     public boolean leftPlayersBullet;
@@ -81,13 +81,20 @@ public class Bullet extends Circle {
         }
     }
 
-    public void changeRadius(){
-        if(this!=null) {
+    public void changeRadius() {
+
+
             if (this.currentBulletRadius > 0 + bulletRadiusDowngrade) {
                 this.currentBulletRadius -= bulletRadiusDowngrade;
-                this.setRadius(this.currentBulletRadius);
+                try {
+                    System.out.println(bulletRadiusDowngrade);
+                    this.setRadius(this.getRadius()-bulletRadiusDowngrade);
+                }catch(Exception e){
+                    System.out.println("siema");
+                }
             }
-        }
+
+
     }
 
     public double getBulletRadius() {

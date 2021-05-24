@@ -127,7 +127,6 @@ public class Main extends Application {
                     case SPACE:
                         leftTank.barrel.shoot(true);
                         root.getChildren().removeAll(circleCol);
-                        System.out.println("CC " + circleCol.size());
                         circleCol.clear();
                         break;
                     case UP:

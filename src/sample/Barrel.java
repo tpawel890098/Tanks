@@ -39,9 +39,6 @@ public class Barrel extends Rectangle {
             double xRotate = this.getX();
             double yRotate = this.getY() + this.height / 2;
 
-            System.out.println("CA: "+currentAngle);
-            System.out.println("A: "+ angle);
-
             Rotate rotate = new Rotate();
             rotate.setAngle(angle);
             rotate.setPivotX(xRotate);
@@ -119,8 +116,6 @@ public class Barrel extends Rectangle {
             if(Main.leftTank.getActiveBullets()< Tank.maxActiveBullets) {
                 double barrelPositionX = this.getX() + this.width;
                 double barrelPositionY = this.getY() + 108;
-
-                //System.out.println("STRZELAM XD");
 
                 Main.setShotBulletsP1();
 
