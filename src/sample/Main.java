@@ -7,6 +7,9 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -36,7 +39,7 @@ public class Main extends Application {
     private static Pane rightPlayerPane;
     private static Pane gamePane;
     private static GridPane scoresPane;
-    private static GridPane bottomPane;
+    private static Pane bottomPane;
     private static BorderPane p1PointsPane;
     private static BorderPane p1BulletPane;
     private static BorderPane p2PointsPane;
@@ -59,6 +62,8 @@ public class Main extends Application {
     public static Tank rightTank;
     public static Circle circle;
     private static ArrayList<Circle> circleCol;
+    private static Label notificationsLabel;
+    private StringProperty notifications = new SimpleStringProperty();
 
 
     @Override
@@ -99,7 +104,7 @@ public class Main extends Application {
         leftPlayerPane= preparePane(200,700);
         rightPlayerPane= preparePane(200,700);
         scoresPane=prepareGridPane(1200,100);
-        bottomPane=prepareGridPane(1200,100);
+        bottomPane=preparePane(1200,100);
 
 
         leftPlayerPane.getChildren().add(leftTank);
@@ -114,6 +119,7 @@ public class Main extends Application {
                 switch (key.getCode()) {
                     case W:
                         leftTank.moveUp(true);
+                        notifications.set("Siema");
                         break;
                     case S:
                         leftTank.moveDown(true);
@@ -200,6 +206,19 @@ public class Main extends Application {
         scoresPane.setConstraints(p2BulletPane,3,0);
         scoresPane.getColumnConstraints().addAll(p1PointsColumn,p1BulletColumn,timeColumn,p2PointsColumn,p2BulletColumn);
         scoresPane.getChildren().addAll(p1PointsPane,p1BulletPane,timePane,p2BulletPane,p2PointsPane);
+
+        notificationsLabel = new Label();
+        notificationsLabel.setLayoutY(0);
+        notificationsLabel.setLayoutX(200);
+        notificationsLabel.setPrefSize(800,100);
+        notificationsLabel.textProperty().bind(notifications);
+        notificationsLabel.setAlignment(Pos.CENTER);
+        notificationsLabel.setStyle("-fx-font-size: 5em; -fx-background-color: purple;");
+
+
+        bottomPane.getChildren().add(notificationsLabel);
+
+
 
         mainPane.setLeft(leftPlayerPane);
         mainPane.setRight(rightPlayerPane);
