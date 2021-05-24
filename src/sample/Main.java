@@ -62,6 +62,8 @@ public class Main extends Application {
     public static Tank rightTank;
     public static Circle circle;
     private static ArrayList<Circle> circleCol;
+    private static ArrayList<Cell> cellCol;
+    private double t;
     private static Label notificationsLabel;
     private StringProperty notifications = new SimpleStringProperty();
 
@@ -70,6 +72,7 @@ public class Main extends Application {
     public void start(Stage primaryStage){
 
         circleCol=new ArrayList<Circle>();
+        cellCol=new ArrayList<Cell>();
 
         root=new Group();
         Scene scene= new Scene(root);
@@ -274,14 +277,39 @@ public class Main extends Application {
 
     private void update(){
 
-        //System.out.println("CH "+root.getChildren().size());
-       // System.out.println("B "+bullets().size());
+        t+=0.032;
+
         try {
         bullets().forEach(s->{
 
             Circle fakeBullet;
             fakeBullet=new Circle(0,0,0);
             circle=fakeBullet;
+
+            for(Cell cell : cellCol )
+            {
+                if(s.getBoundsInParent().intersects(cell.getBoundsInParent()))
+                {
+                    cell.setOpacity(0);
+                    s.setOpacity(0);
+                    s.isDestroyed=true;
+
+                    if(s.leftPlayersBullet)
+                    {
+                        leftTank.setActiveBullets(leftTank.getActiveBullets() - 1);
+                    }
+                    else
+                    {
+                        rightTank.setActiveBullets(rightTank.getActiveBullets() - 1);
+                    }
+
+                    root.getChildren().remove(s);
+
+
+
+                }
+
+            }
 
             if (s.leftPlayersBullet) {
 
@@ -365,7 +393,6 @@ public class Main extends Application {
 
                 }
 
-
             }
 
         });
@@ -375,6 +402,15 @@ public class Main extends Application {
             System.out.println("UPDATE PROBLEM");
 
         }
+
+
+        if(t>2){
+            if(Math.random()<0.5){
+                createNewCell();
+                t=0;
+            }
+        }
+
     }
 
 
@@ -384,6 +420,13 @@ public class Main extends Application {
 
     public static void setShotBulletsP2(){
         p2ShotBulletsInt.set(p2ShotBulletsInt.get()+1);
+    }
+
+    public static void createNewCell()
+    {
+        Cell cell = new Cell();
+        cellCol.add(cell);
+        root.getChildren().add(cell);
     }
 
 

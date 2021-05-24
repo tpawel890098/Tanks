@@ -121,4 +121,29 @@ public class GameSetup {
         return value;
     }
 
+    public static double getCellSize()
+    {
+        return cellSize;
+    }
+
+    public static double getCellSizeChange()
+    {
+        return cellSizeChange;
+    }
+
+    public static double getCellAcceleration()
+    {
+        return cellAcceleration;
+    }
+
+    public static double getCellFallingSpeed()
+    {
+        return cellFallingSpeed;
+    }
+
+    public static double getDurabilityIncreaseTimeUnit()
+    {
+        return durabilityIncreaseTimeUnit;
+    }
+
 }
