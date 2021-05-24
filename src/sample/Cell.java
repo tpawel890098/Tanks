@@ -23,8 +23,8 @@ public class Cell extends Rectangle {
     private double cellDurabilityIncreaseTime=GameSetup.getDurabilityIncreaseTimeUnit();
     private double x;
     private double y;
-    private boolean isDestroyed;
-    private Timeline timeline;
+    public boolean isDestroyed;
+    public Timeline timeline;
 
     private static final int[] durabilityArray = new int[]{1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 8, 9};
 
@@ -81,9 +81,15 @@ public class Cell extends Rectangle {
         return this.cellDurability;
     }
 
+    public int getCellValue() { return this.cellValue; }
+
     public void cellMovement()
     {
         this.setY(this.getY()+cellFallSpeed);
+    }
+
+    public void getHit(){
+        this.cellDurability--;
     }
 
 }

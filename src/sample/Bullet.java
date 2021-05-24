@@ -87,10 +87,9 @@ public class Bullet extends Circle {
             if (this.currentBulletRadius > 0 + bulletRadiusDowngrade) {
                 this.currentBulletRadius -= bulletRadiusDowngrade;
                 try {
-                    System.out.println(bulletRadiusDowngrade);
                     this.setRadius(this.getRadius()-bulletRadiusDowngrade);
                 }catch(Exception e){
-                    System.out.println("siema");
+                    System.out.println("CHANGE RADIUS ERROR");
                 }
             }
 

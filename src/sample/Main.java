@@ -290,20 +290,41 @@ public class Main extends Application {
             {
                 if(s.getBoundsInParent().intersects(cell.getBoundsInParent()))
                 {
-                    cell.setOpacity(0);
+                    cell.getHit();
+
                     s.setOpacity(0);
                     s.isDestroyed=true;
+                    root.getChildren().remove(s);
 
                     if(s.leftPlayersBullet)
                     {
                         leftTank.setActiveBullets(leftTank.getActiveBullets() - 1);
+
+                        if(cell.getCellDurability()==0)
+                        {
+                            leftTank.setPlayerPoints(leftTank.getPlayerPoints()+cell.getCellValue());
+                            cell.timeline.jumpTo(Duration.seconds(50));
+                            root.getChildren().remove(cell);
+
+                            System.out.println("LEWY GRACZ PKT: "+leftTank.getPlayerPoints());
+                        }
                     }
                     else
                     {
                         rightTank.setActiveBullets(rightTank.getActiveBullets() - 1);
+
+                        if(cell.getCellDurability()==0)
+                        {
+                            rightTank.setPlayerPoints(rightTank.getPlayerPoints()+cell.getCellValue());
+                            cell.timeline.jumpTo(Duration.seconds(50));
+                            root.getChildren().remove(cell);
+
+                            System.out.println("PRAWY GRACZ PKT: "+rightTank.getPlayerPoints());
+                        }
+
                     }
 
-                    root.getChildren().remove(s);
+
 
 
 
