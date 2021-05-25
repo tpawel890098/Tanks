@@ -22,9 +22,13 @@ public class Barrel extends Rectangle {
         if(!left)
         {
             this.setX(x-width/2);
+            this.setStroke(Color.ORANGE);
         }
+        else this.setStroke(Color.YELLOW);
+
 
         this.setFill(Color.BLACK);
+
 
         this.width=width;
         this.height=height/6;

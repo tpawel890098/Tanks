@@ -29,6 +29,22 @@ public class Bullet extends Circle {
         else
             this.setStroke(Color.GREEN);
 
+        if(this.bulletSpeed<1)
+            this.bulletSpeed=1;
+        else if(this.bulletSpeed>50)
+            this.bulletSpeed=50;
+
+        if(this.bulletAcceleration<0)
+            this.bulletAcceleration=0;
+        else if(this.bulletAcceleration>10)
+            this.bulletAcceleration=10;
+
+        if(this.bulletRadiusDowngrade<0)
+            this.bulletRadiusDowngrade=0;
+        else if(this.bulletRadiusDowngrade>2)
+            this.bulletRadiusDowngrade=2;
+
+
         timer= new Timer();
         TimerTask task = new TimerTask() {
 

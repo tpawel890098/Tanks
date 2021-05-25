@@ -66,6 +66,7 @@ public class Main extends Application {
     private double t;
     private static Label notificationsLabel;
     private StringProperty notifications = new SimpleStringProperty();
+    private double cellSpeed=GameSetup.getCellFallingSpeed();
 
 
     @Override
@@ -122,7 +123,6 @@ public class Main extends Application {
                 switch (key.getCode()) {
                     case W:
                         leftTank.moveUp(true);
-                        notifications.set("Siema");
                         break;
                     case S:
                         leftTank.moveDown(true);
@@ -165,11 +165,11 @@ public class Main extends Application {
 
 
 
-        gamePane.setStyle("-fx-background-color:lightblue;");
-        // leftPlayerPane.setStyle("-fx-background-color:yellow;");
-        // rightPlayerPane.setStyle("-fx-background-color:green;");
-        scoresPane.setStyle("-fx-background-color:black;");
-        bottomPane.setStyle("-fx-background-color:black;");
+        gamePane.setStyle("-fx-background-color:lightblue;-fx-border-color: black ;-fx-border-width: 1 ;");
+        leftPlayerPane.setStyle("-fx-background-color:#fce3e1;-fx-border-color: black ;-fx-border-width: 1 ;");
+        rightPlayerPane.setStyle("-fx-background-color:#e7fce1;-fx-border-color: black ;-fx-border-width: 1 ;");
+        scoresPane.setStyle("-fx-background-color:black;-fx-border-color: black ;-fx-border-width: 1 ;");
+        bottomPane.setStyle("-fx-background-color:black;-fx-border-color: black ;-fx-border-width: 1 ;");
         p1PointsPane = prepareBorderPane(250,100);
         p1BulletPane = prepareBorderPane(250,100);
         p2PointsPane = prepareBorderPane(250,100);
@@ -197,11 +197,11 @@ public class Main extends Application {
         ColumnConstraints p2PointsColumn = prepareColumnConstraints(20);
         ColumnConstraints p1BulletColumn = prepareColumnConstraints(20);
         ColumnConstraints p2BulletColumn = prepareColumnConstraints(20);
-        p1PointsPane.setStyle("-fx-background-color:yellow;");
-        timePane.setStyle("-fx-background-color:cyan");
-        p1BulletPane.setStyle("-fx-background-color:green;");
-        p2PointsPane.setStyle("-fx-background-color:blue;");
-        p2BulletPane.setStyle("-fx-background-color:red;");
+        p1PointsPane.setStyle("-fx-background-color:red;-fx-border-color: black ;-fx-border-width: 1 ;");
+        timePane.setStyle("-fx-background-color:#8ab5f2;-fx-border-color: black ;-fx-border-width: 1 ;");
+        p1BulletPane.setStyle("-fx-background-color:#f28a8a;-fx-border-color: black ;-fx-border-width: 1 ;");
+        p2PointsPane.setStyle("-fx-background-color:green;-fx-border-color: black ;-fx-border-width: 1 ;");
+        p2BulletPane.setStyle("-fx-background-color:lightgreen;-fx-border-color: black ;-fx-border-width: 1 ;");
         scoresPane.setConstraints(p1PointsPane,0,0);
         scoresPane.setConstraints(p1BulletPane,1,0);
         scoresPane.setConstraints(timePane,2,0);
@@ -215,7 +215,7 @@ public class Main extends Application {
         notificationsLabel.setPrefSize(800,100);
         notificationsLabel.textProperty().bind(notifications);
         notificationsLabel.setAlignment(Pos.CENTER);
-        notificationsLabel.setStyle("-fx-font-size: 5em; -fx-background-color: purple;");
+        notificationsLabel.setStyle("-fx-font-size: 3em; -fx-background-color: #db8af2;-fx-border-color: black ;-fx-border-width: 1 ;");
 
 
         bottomPane.getChildren().add(notificationsLabel);
@@ -302,9 +302,11 @@ public class Main extends Application {
                         if(cell.getCellDurability()==0)
                         {
                             leftTank.setPlayerPoints(leftTank.getPlayerPoints()+cell.getCellValue());
+                            notifications.set("Lewy gracz zdobywa +"+cell.getCellValue()+" pkt");
                             cell.stack.setOpacity(0);
-                            cell.timeline.jumpTo(Duration.seconds(5));
+                            cell.timeline.jumpTo(Duration.seconds(15-cellSpeed));
                             p1PointsInt.setValue(leftTank.getPlayerPoints());
+                            cell.isDestroyed=true;
 
                             System.out.println("LEWY GRACZ PKT: "+leftTank.getPlayerPoints());
                         }
@@ -316,9 +318,11 @@ public class Main extends Application {
                         if(cell.getCellDurability()==0)
                         {
                             rightTank.setPlayerPoints(rightTank.getPlayerPoints()+cell.getCellValue());
+                            notifications.set("Prawy gracz zdobywa +"+cell.getCellValue()+" pkt");
                             cell.stack.setOpacity(0);
-                            cell.timeline.jumpTo(Duration.seconds(5));
+                            cell.timeline.jumpTo(Duration.seconds(15-cellSpeed));
                             p2PointsInt.setValue(rightTank.getPlayerPoints());
+                            cell.isDestroyed=true;
 
                             System.out.println("PRAWY GRACZ PKT: "+rightTank.getPlayerPoints());
                         }

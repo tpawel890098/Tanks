@@ -6,7 +6,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Tank extends Rectangle {
 
-    public static final int maxActiveBullets=GameSetup.getMaxShotBullets();
+    public static int maxActiveBullets=GameSetup.getMaxShotBullets();
     private int playerPoints;
     private int activeBullets;
     private int shotBullets;
@@ -16,10 +16,18 @@ public class Tank extends Rectangle {
     {
         super(x,y,width,height);
         this.setFill(color);
+        this.setStroke(Color.BLACK);
         barrel=new Barrel(x,y,width,height,left);
         playerPoints=0;
         activeBullets=0;
         shotBullets=0;
+
+        if(this.maxActiveBullets<1)
+            this.maxActiveBullets=1;
+        else if(this.maxActiveBullets>20)
+            this.maxActiveBullets=20;
+
+
     }
 
     public void moveUp(boolean left)

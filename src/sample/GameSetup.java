@@ -89,6 +89,12 @@ public class GameSetup {
 
    public static double getBulletRadius()
    {
+
+       if(bulletRadius<5)
+           bulletRadius=5;
+       else if(bulletRadius>30)
+           bulletRadius=30;
+
        return bulletRadius;
    }
 
@@ -107,10 +113,26 @@ public class GameSetup {
         return radiusChange;
     }
 
-    public static double getTimeUnit() { return timeUnit; }
+    public static double getTimeUnit() {
+
+        if(timeUnit<0.05)
+            timeUnit=0.05;
+        else if(timeUnit>1)
+            timeUnit=1;
+
+
+        return timeUnit;
+
+
+    }
 
     public static int getGameTime()
     {
+        if(gameTime<10)
+            gameTime=10;
+        else if(gameTime>300)
+            gameTime=300;
+
         int value=(int)gameTime;
         return value;
     }
